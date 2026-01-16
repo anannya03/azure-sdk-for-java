@@ -74,7 +74,6 @@ public class EnvironmentCredential implements TokenCredential {
             : identityClientOptions.getConfiguration();
         TokenCredential targetCredential = null;
         this.identityClientOptions = identityClientOptions;
-
         String clientId = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_ID);
         String tenantId = configuration.get(Configuration.PROPERTY_AZURE_TENANT_ID);
         String clientSecret = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_SECRET);
@@ -82,9 +81,10 @@ public class EnvironmentCredential implements TokenCredential {
         String certPassword = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_CERTIFICATE_PASSWORD);
         String username = configuration.get(Configuration.PROPERTY_AZURE_USERNAME);
         String password = configuration.get(Configuration.PROPERTY_AZURE_PASSWORD);
+        //TODO:Read more about this property
         String sendCertificateChain
             = configuration.get(Configuration.PROPERTY_AZURE_CLIENT_SEND_CERTIFICATE_CHAIN, "false");
-
+        //TODO:Read more about this property
         if (CoreUtils.isNullOrEmpty(identityClientOptions.getAdditionallyAllowedTenants())) {
             identityClientOptions
                 .setAdditionallyAllowedTenants(IdentityUtil.getAdditionalTenantsFromEnvironment(configuration));

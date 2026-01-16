@@ -76,7 +76,9 @@ public class UsernamePasswordCredential implements TokenCredential {
 
         identityClient = builder.build();
         identitySyncClient = builder.buildSyncClient();
-
+        // this cachedtoken holds the authentication account info after first successful authentication, so that
+        // subsequent token requests can try to use the cache first without the user needing to sign in repeatedly. 
+        // Is this correct?
         cachedToken = new AtomicReference<>();
         this.authorityHost = identityClientOptions.getAuthorityHost();
     }
@@ -165,6 +167,7 @@ public class UsernamePasswordCredential implements TokenCredential {
         return msalToken;
     }
 
+    //I didn't understand why we also have to check for the isCaeEnabeled() flag here. Why is checking for cachedToken be enough?
     private boolean isCachePopulated(TokenRequestContext request) {
         return (cachedToken.get() != null)
             && ((request.isCaeEnabled() && isCaeEnabledRequestCached)

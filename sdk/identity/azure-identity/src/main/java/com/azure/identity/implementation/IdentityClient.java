@@ -802,7 +802,7 @@ public class IdentityClient extends IdentityClientBase {
             = AuthorizationCodeParameters.builder(authorizationCode, redirectUrl)
                 .scopes(new HashSet<>(request.getScopes()))
                 .tenant(IdentityUtil.resolveTenantId(tenantId, request, options));
-
+// TODO : what are Claims?
         if (request.getClaims() != null) {
             ClaimsRequest claimsRequest = ClaimsRequest.formatAsClaimsRequest(request.getClaims());
             parametersBuilder.claims(claimsRequest);

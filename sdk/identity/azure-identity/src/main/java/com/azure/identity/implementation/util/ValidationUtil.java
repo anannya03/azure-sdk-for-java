@@ -22,6 +22,28 @@ import static com.azure.identity.implementation.util.IdentityUtil.isWindowsPlatf
  */
 public final class ValidationUtil {
 
+    /*
+    Mmm can we probably make a small change to this? Or using a map would be a good way because of key value pair for our name-value entry/
+    Though that would require changes in all the places where this method is called. 
+    And if we are going to change the way validate method is called in all places, we can probably just go with the first method which takes in a
+    list of names and list of values
+
+    private static void validate(sTRING classname, ClientLogger logger, String... params) {
+    //check for params length- should be even
+     List<String> missingParams = new ArrayList<>();
+     for(int i=0; i<params.length; i+=2) {
+            if(params[i+1] == null) {
+                missingParams.add(params[i]);
+            }
+        }
+
+        if (!missingParams.isEmpty()) {
+            throw logger.logExceptionAsWarning(new IllegalArgumentException(
+                "Must provide non-null values for " + String.join(", ", missingParams) + " properties in " + className));
+        }
+    }
+    */
+
     public static void validate(String className, ClientLogger logger, List<String> names, List<String> values) {
         String missing = "";
 
@@ -138,6 +160,7 @@ public final class ValidationUtil {
             || (c == ' ');
     }
 
+    //this method is used no where apart from the ValidationUtilTest.
     public static Path validateSecretFile(File file, ClientLogger logger) {
 
         Path path = file.toPath();

@@ -87,6 +87,9 @@ public class AuthorizationCodeCredential implements TokenCredential {
         this.useConfidentialClient = !CoreUtils.isNullOrEmpty(clientSecret);
     }
 
+    // This might be a very basic question, but why do some credentials not have a getTokenSync method and we use the
+    // the .block() method on the Mono returned from getToken to achieve sync behavior, whereas some credentials
+    // have a separate getTokenSync method implemented in them?
     @Override
     public Mono<AccessToken> getToken(TokenRequestContext request) {
         return Mono.defer(() -> {

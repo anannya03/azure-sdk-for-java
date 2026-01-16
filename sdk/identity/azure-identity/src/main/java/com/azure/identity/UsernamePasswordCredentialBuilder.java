@@ -99,6 +99,7 @@ public class UsernamePasswordCredentialBuilder extends AadCredentialBuilderBase<
         return this;
     }
 
+    //Do we need these overridden methods? The base class methods does the same thing
     /**
      * For multi-tenant applications, specifies additional tenants for which the credential may acquire tokens.
      * Add the wildcard value "*" to allow the credential to acquire tokens for any tenant on which the application is installed.

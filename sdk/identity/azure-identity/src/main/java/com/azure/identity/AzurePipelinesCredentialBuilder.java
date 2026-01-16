@@ -100,7 +100,7 @@ public class AzurePipelinesCredentialBuilder extends AadCredentialBuilderBase<Az
         if (configuration == null) {
             configuration = Configuration.getGlobalConfiguration();
         }
-
+        //is this a pipeline variable?
         String oidcEndpoint = configuration.get("SYSTEM_OIDCREQUESTURI");
 
         ValidationUtil.validate(getClass().getSimpleName(), LOGGER,
@@ -118,6 +118,7 @@ public class AzurePipelinesCredentialBuilder extends AadCredentialBuilderBase<Az
             if (options == null) {
                 options = new HttpLogOptions();
             }
+            //why specifically these headers?
             options.addAllowedHeaderName("x-vss-e2eid");
             options.addAllowedHeaderName("x-msedge-ref");
             identityClientOptions.setHttpLogOptions(options);

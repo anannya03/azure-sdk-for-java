@@ -83,6 +83,8 @@ public class DefaultAzureCredentialBuilder extends CredentialBuilderBase<Default
         return this;
     }
 
+    // Even if we set authority host here in DAC, this wouldn't be used by the Login CLI based credentials, right? Because 
+    // we don't pass it to them. Then, do these credentials only work for the default public cloud authority host?
     /**
      * Specifies the Microsoft Entra endpoint to acquire tokens.
      * @param authorityHost the Microsoft Entra endpoint

@@ -31,6 +31,8 @@ import java.util.concurrent.ExecutorService;
  *
  * @see EnvironmentCredential
  */
+
+//why can this not extend AadCredentialbuilderbase as it is used for clientsecret/clientcertificate/usernamepasswordcredential and they all extend aadcredebuilderbase?
 public class EnvironmentCredentialBuilder extends CredentialBuilderBase<EnvironmentCredentialBuilder> {
     private static final ClientLogger LOGGER = new ClientLogger(EnvironmentCredentialBuilder.class);
 

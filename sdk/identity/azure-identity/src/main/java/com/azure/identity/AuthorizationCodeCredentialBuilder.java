@@ -100,6 +100,7 @@ public class AuthorizationCodeCredentialBuilder extends AadCredentialBuilderBase
      *
      * @return a {@link AuthorizationCodeCredential} with the current configurations.
      */
+    // should we validate tenantid not null here?
     public AuthorizationCodeCredential build() {
         ValidationUtil.validate(CLASS_NAME, LOGGER, "clientId", clientId, "authorizationCode", authCode, "redirectUrl",
             redirectUrl);

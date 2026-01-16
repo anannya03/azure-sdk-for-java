@@ -21,6 +21,7 @@ public final class ScopeUtil {
      * @return the resource to authenticate with Microsoft Entra ID.
      * @throws IllegalArgumentException if scopes is empty or has more than 1 items
      */
+    // Why can we only have one scope for resource?
     public static String scopesToResource(List<String> scopes) {
         Objects.requireNonNull(scopes);
         if (scopes.size() != 1) {

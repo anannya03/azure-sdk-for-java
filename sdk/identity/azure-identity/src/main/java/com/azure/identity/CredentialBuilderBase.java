@@ -87,6 +87,8 @@ public abstract class CredentialBuilderBase<T extends CredentialBuilderBase<T>> 
         return (T) this;
     }
 
+    //Curious, but we ideally wouldn't really need these http related methods (httppipeline, policy, retryOptions etc) 
+    // for any of the CLI based credentials, right?
     /**
      * Specifies the HttpPipeline to send all requests. This setting overrides the others.
      * @deprecated This method is deprecated.

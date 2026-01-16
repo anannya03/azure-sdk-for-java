@@ -41,7 +41,8 @@ import java.util.Objects;
  */
 public class AzureDeveloperCliCredentialBuilder extends CredentialBuilderBase<AzureDeveloperCliCredentialBuilder> {
     private static final ClientLogger LOGGER = new ClientLogger(AzureDeveloperCliCredentialBuilder.class);
-
+    //i am slightly curious as to why does azd not have subscription like az cli 
+    // TODO: Check if subscription is supported in azd
     private String tenantId;
 
     /**

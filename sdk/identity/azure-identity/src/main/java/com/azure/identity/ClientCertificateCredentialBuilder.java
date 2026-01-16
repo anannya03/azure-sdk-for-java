@@ -212,6 +212,7 @@ public class ClientCertificateCredentialBuilder extends AadCredentialBuilderBase
         return this;
     }
 
+    // TODO: check x5c claim support
     /**
      * Specifies if the x5c claim (public key of the certificate) should be sent as part of the authentication request
      * and enable subject name / issuer based authentication. The default value is false.

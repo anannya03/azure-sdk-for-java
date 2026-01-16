@@ -8,6 +8,8 @@ import com.azure.identity.implementation.util.ValidationUtil;
 
 import java.util.function.Supplier;
 
+// Can we add the href to clientAssertionCredential here? https://learn.microsoft.com/en-us/java/api/com.azure.identity.clientassertioncredentialbuilder?view=azure-java-stable
+
 /**
  * Fluent credential builder for instantiating a {@link ClientAssertionCredential}.
  *
@@ -18,17 +20,19 @@ import java.util.function.Supplier;
  * In this authentication method, the client application creates a JSON Web Token (JWT) that includes information about
  * the service principal (such as its client ID and tenant ID) and signs it using a client secret. The client then
  * sends this token to
- * <a href="https://learn.microsoft.com/entra/fundamentals/">Microsoft Entra ID</a> as proof of its
+ * <a href="https://learn.microsoft.com/entra/fundamentals/">Microsoft Entra ID</a> as proof of its 
  * identity. Microsoft Entra ID verifies the token signature and checks that the service principal has
  * the necessary permissions to access the requested Azure resource. If the token is valid and the service principal is
  * authorized, Microsoft Entra ID issues an access token that the client application can use to access the requested resource.
- * The {@link ClientAssertionCredential} acquires an access token with a client client assertion for a
+ * The {@link ClientAssertionCredential} acquires an access token with a client assertion for a
  * service principal/registered Microsoft Entra application. The tenantId, clientId and clientAssertion of the service principal
  * are required for this credential to acquire an access token. It can be used both in Azure hosted and local
  * development environments for authentication.</p>
  *
  * <p><strong>Sample: Construct a simple ClientAssertionCredential</strong></p>
  *
+ * // This seems wrong: clientsecret is not a required parameter for client assertion credential.
+ * 
  * <p>The following code sample demonstrates the creation of a {@link ClientAssertionCredential},
  * using the {@link ClientAssertionCredentialBuilder} to configure it. The {@code tenantId},
  * {@code clientId} and {@code certificate} parameters are required to create

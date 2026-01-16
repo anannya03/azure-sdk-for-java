@@ -80,7 +80,7 @@ public class IdentitySyncClient extends IdentityClientBase {
         super(tenantId, clientId, clientSecret, certificatePath, clientAssertionFilePath, resourceId, objectId,
             clientAssertionSupplier, clientAssertionSupplierWithHttpPipeline, certificate, certificatePassword,
             isSharedTokenCacheCredential, clientAssertionTimeout, options);
-
+        //can we change this to use method references? this::getPublicClient
         this.publicClientApplicationAccessor
             = new SynchronousAccessor<>(() -> this.getPublicClient(isSharedTokenCacheCredential, false));
 
@@ -114,6 +114,10 @@ public class IdentitySyncClient extends IdentityClientBase {
         }
     }
 
+    // We don't check for caeenabled in this method, but we include it in identityClien. Whereas identityclient doesnt have a 
+    // iscaeenabled and claims check in authenticateWithConfidentialClientCache, but identitysyncclient has.
+    // Shouldn't we have symmetric behaviour in both async and sync flow?
+
     /**
      * Asynchronously acquire a token from Active Directory with a client secret.
      *
@@ -125,6 +129,9 @@ public class IdentitySyncClient extends IdentityClientBase {
         ClientCredentialParameters.ClientCredentialParametersBuilder builder
             = ClientCredentialParameters.builder(new HashSet<>(request.getScopes()))
                 .tenant(IdentityUtil.resolveTenantId(tenantId, request, options));
+        // Doubt: We already have this assertionsupplier and assetionsupplierwithhttppipeline in identityclientbase. Is the reason
+        // we add it here as well is because synchronusaccessor only intializes the client once and at that point a jwt token is issued? 
+        // So if at a later point of time, a gettoken call is made after the JWT is expired, this particular code path will ensure a new jwt token is created?
         if (clientAssertionSupplier != null) {
             builder.clientCredential(ClientCredentialFactory.createFromClientAssertion(clientAssertionSupplier.get()));
         } else if (clientAssertionSupplierWithHttpPipeline != null) {
@@ -201,6 +208,7 @@ public class IdentitySyncClient extends IdentityClientBase {
     public MsalToken authenticateWithPublicClientCache(TokenRequestContext request, IAccount account) {
         PublicClientApplication pc = getPublicClientInstance(request).getValue();
         MsalToken token = acquireTokenFromPublicClientSilently(request, pc, account, false);
+        // if there's a cache miss, and the token is null, should we add a check here to avoid NPE?
         if (OffsetDateTime.now().isAfter(token.getExpiresAt().minus(REFRESH_OFFSET))) {
             token = acquireTokenFromPublicClientSilently(request, pc, account, true);
         }

@@ -163,6 +163,9 @@ public abstract class IdentityClientBase {
         Function<HttpPipeline, String> clientAssertionSupplierWithHttpPipeline, byte[] certificate,
         String certificatePassword, boolean isSharedTokenCacheCredential, Duration clientAssertionTimeout,
         IdentityClientOptions options) {
+        // I have a question- when we set additional allowed tenants, that would mean that the app can get
+        // tokens by multiple tenants, right? But the authority host is set based on a single tenantId (be it a user defined
+        // tenant or default etc.) So if the request is made to a single tenant, then how can other tenants give token?
         if (tenantId == null) {
             tenantId = IdentityUtil.DEFAULT_TENANT;
             options.setAdditionallyAllowedTenants(Collections.singletonList(IdentityUtil.ALL_TENANTS));
@@ -248,7 +251,8 @@ public abstract class IdentityClientBase {
         } catch (MalformedURLException e) {
             throw LOGGER.logExceptionAsWarning(new IllegalStateException(e));
         }
-
+        // what does this mean? -> cp1 flag is added to indicate the client is capable of continuous access evaluation
+        // and to send a cae token. 
         if (enableCae) {
             Set<String> set = new HashSet<>(1);
             set.add("CP1");
@@ -258,6 +262,8 @@ public abstract class IdentityClientBase {
         applicationBuilder.sendX5c(options.isIncludeX5c());
         initializeHttpPipelineAdapter();
 
+        // If we set our own proxyConfigurations, then we don't need an httpClient? 
+        // How would the request be sent to the proxy? Is there a default httpclient used in that case by MSAL?
         if (httpPipelineAdapter != null) {
             applicationBuilder.httpClient(httpPipelineAdapter);
         } else {
@@ -283,6 +289,7 @@ public abstract class IdentityClientBase {
                     "Shared token cache is unavailable in this environment.", null, t));
             }
         }
+        //TODO: Read more about regional authority
         if (options.getRegionalAuthority() != null) {
             if (options.getRegionalAuthority() == RegionalAuthority.AUTO_DISCOVER_REGION) {
                 applicationBuilder.autoDetectRegion(true);
